@@ -1,0 +1,35 @@
+#docker command to push to container registry
+
+docker build -t 9177746670/ml-pipeline:latest .
+docker push 9177746670/ml-pipeline:latest .
+
+#docker run command your pipelines
+
+docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/ml_pipeline_advanced:/app 9177746670/ml-pipeline:latest python data_ingest.py
+
+docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/ml_pipeline_advanced:/app 9177746670/ml-pipeline:latest python feature_engineer.py
+
+docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/ml_pipeline_advanced:/app 9177746670/ml-pipeline:latest python train.py
+
+# Step 3: Apply Kubernetes jobs
+kubectl apply -f k8s_job_data_ingest.yaml
+kubectl apply -f k8s_job_feature_engineer.yaml
+kubectl apply -f k8s_job_train.yaml
+
+# Step 4: Check pods and logs
+kubectl get pods
+kubectl logs <pod-name>
+
+# Step 5: Serve model (optional)
+docker run -p 8000:8000 --rm -v ${PWD}/data:/app/data ml-pipeline:latest uvicorn serve:app --host 0.0.0.0 --port 8000
+
+# Step 6: Cleanup
+kubectl delete -f k8s/data-ingest-job.yaml
+kubectl delete -f k8s/feature-engineer-job.yaml
+kubectl delete -f k8s/train-model-job.yaml
+docker ps -a
+docker stop <container-id>
+docker rm <container-id>
+docker image prune -a
+
+wsl --install -d Ubuntu-22.04 in powershell

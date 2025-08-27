@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: feature-engineer-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: feature-engineer
+        image: 9177746670/ml-pipeline:latest
+        command: ["python", "feature_engineer.py"]
+      restartPolicy: Never
+  backoffLimit: 2

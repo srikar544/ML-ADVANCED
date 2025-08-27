@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-ingest-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: data-ingest
+        image: 9177746670/ml-pipeline:latest
+        command: ["python", "data_ingest.py"]
+      restartPolicy: Never
+  backoffLimit: 2
