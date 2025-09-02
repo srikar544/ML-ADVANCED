@@ -5,11 +5,11 @@ docker push 9177746670/ml-pipeline:latest .
 
 #docker run command your pipelines
 
-docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/ml_pipeline_advanced:/app 9177746670/ml-pipeline:latest python data_ingest.py
+docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/MLADVANCED:/app 9177746670/ml-pipeline:latest python data_ingest.py
 
-docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/ml_pipeline_advanced:/app 9177746670/ml-pipeline:latest python feature_engineer.py
+docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/MLADVANCED:/app 9177746670/ml-pipeline:latest python feature_engineer.py
 
-docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/ml_pipeline_advanced:/app 9177746670/ml-pipeline:latest python train.py
+docker run --rm -v D:/srikardata/Python/Python_tutorias/Docker+Kubernetes/ml-pipeline/MLADVANCED:/app 9177746670/ml-pipeline:latest python train.py
 
 # Step 3: Apply Kubernetes jobs
 kubectl apply -f k8s_job_data_ingest.yaml
