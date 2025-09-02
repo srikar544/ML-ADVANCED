@@ -1,0 +1,25 @@
+executor: KubernetesExecutor
+
+airflow:
+  image:
+    repository: apache/airflow
+    tag: 2.9.0
+
+webserver:
+  service:
+    type: NodePort
+
+api:
+  apiServer:
+    startupProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      failureThreshold: 30
+
+createUserJob:
+  useHelmHooks: false
+  command:
+    - bash
+  args:
+    - -c
+    - airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com

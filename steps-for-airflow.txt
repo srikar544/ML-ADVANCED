@@ -1,0 +1,28 @@
+choco install kubernetes-helm
+helm repo add apache-airflow https://airflow.apache.org
+helm repo update
+ 
+
+kubectl create namespace airflow
+
+helm install airflow apache-airflow/airflow \
+  --namespace airflow \
+  --set executor=KubernetesExecutor \
+  --set airflow.image.tag=2.9.0 \
+  --set airflow.image.repository=apache/airflow \
+  --set webserver.service.type=NodePort \
+  --set createUserJob.useHelmHooks=false \
+  --set createUserJob.command="{bash}" \
+  --set createUserJob.args="{ -c, airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com }"
+
+or 
+
+helm install airflow apache-airflow/airflow --namespace airflow --set executor=KubernetesExecutor --set airflow.image.tag=2.9.0 --set airflow.image.repository=apache/airflow --set webserver.service.type=NodePort --set createUserJob.useHelmHooks=false --set createUserJob.command="{bash}" --set createUserJob.args="{ -c, airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com }"
+
+
+
+kubectl get svc -n airflow
+
+http://localhost:30080
+
+Login: admin / admin (from above)
